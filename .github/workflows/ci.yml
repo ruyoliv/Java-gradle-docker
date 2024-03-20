@@ -33,7 +33,7 @@ jobs:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
           repository: imagem_exemplo/java_gradle:latest
-          tags: latest, ${{ secrets.DOCKER_TOKEN }}
+          tags: latest, ${{ secrets.DOCKER_PASSWORD }}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
             
