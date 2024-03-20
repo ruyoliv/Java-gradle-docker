@@ -27,23 +27,17 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - uses: actions/checkout@v2
-    - name: docker login
-        env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-          repository: imagem_exemplo/java_gradle:latest
-          tags: latest, ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-            
-    - name: Build the Vampi Docker image
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        docker build . --file Dockerfile --tag imagem_exemplo/java_gradle:latest
-        
-    - name: List images
-      run: docker images    
-        - name: Docker Push
-          run: docker push ${{secrets.DOCKER_USER}}/java_gradle:latest
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWOR}}
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: ruyoliv/imagem_exemplo/java_gradle:latest
