@@ -43,7 +43,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ruyoliv/imagem_exemplo/java_gradle:latest
+        tags: ruyoliv/java_gradle:latest
 
       
       
